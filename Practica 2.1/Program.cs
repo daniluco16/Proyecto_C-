@@ -30,7 +30,6 @@ namespace Practica_2_Evaluación
                     "\n \t 4. Listados" +
                     "\n \t 5. Configuración" +
                     "\n \t 0. Salir");
-                Console.WriteLine("hola");
 
                 Console.Write("\n \t Escriba la opción del menu:  ");
                 main_menu = Console.ReadLine();
