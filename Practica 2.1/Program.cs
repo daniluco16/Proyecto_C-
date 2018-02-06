@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace Practica_2_Evaluación
 {
-    class Program
-    {
-         /*********************************
+    /*********************************
          Autor: Daniel de la Rosa Romero
          Fecha creación: 02/02/2018
          Última modificación: dd/mm/aaaa
          Versión: x.xx
         ***********************************/
+
+    class Program
+    {
+        static public List<Aula> lis_aulas = new List<Aula>();
+
+        static Aula a = new Aula();
+       
         static void Main(string[] args)
         {
             string main_menu;
@@ -84,29 +89,220 @@ namespace Practica_2_Evaluación
 
                 while (menu_aula != "1" && menu_aula != "2" && menu_aula != "3" && menu_aula != "4" && menu_aula != "0")
                 {
-                    Console.Write("\n \t **ERROR** Vuelve ha elegir una opción correcta:  ");
+                    Console.Write("\n \t **ERROR** Vuelve a elegir una opción correcta:  ");
                     menu_aula = Console.ReadLine();
                 }
                 switch (menu_aula)
                 {
                     case "1":
-                        //Ver aulas
+                        a.verdatos();//Ver aulas
                         break;
                         
                     case "2":
-                        //Añadir aulas
+                        Anadir_aula();//Añadir aulas
                         break;
                         
                     case "3":
-                        //Borrar aulas
+                        borrar_aulas();//Borrar aulas
                         break;
                         
                     case "4":
-                        //Modificar aulas
+                        modificar_aula();//Modificar aulas
                         break;
                 }
             } while (menu_aula != "0");
         }
+
+        static void Anadir_aula()
+        {
+            string anadir;
+            int available_aula = 5;
+            do
+            {
+                Console.Clear();
+                
+                int id;
+                string nombre;
+                string fecha = DateTime.Now.ToString();
+
+
+
+
+
+                if (lis_aulas.Count == available_aula)
+                {
+                    Console.WriteLine("\n \t ***Has superado el limite de aulas registradas ,por favor borre algún aula***");
+                    
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("\n \t === Añadir aulas === \n");
+
+                    Console.Write("\t Identificador (0 ver lista de aulas):  ");//Controlar q si pulsa 0 ver lista 
+                    id = int.Parse(Console.ReadLine());
+
+                    for (int i = 0; i < lis_aulas.Count; i++)
+                    {
+                        if (lis_aulas[i].Id == id)
+                        {
+                            Console.Write("\n \t El ID introducido ya existe \n");
+
+                            Console.Write("\n \t Identificador (0 ver lista de aulas):  ");
+                            id = int.Parse(Console.ReadLine());
+
+
+                        }
+                    }
+
+                    if (id == 0)
+                    {
+                        a.verdatos();
+                        return;
+                    }
+
+                    while (id < 0)
+                    {
+                        Console.WriteLine(" \n \t ** Números negativos no permitidos** \n ");
+                        Console.Write("\t Identificador:  ");
+                        id = int.Parse(Console.ReadLine());
+                    }
+
+
+                    Console.Write("\n \t Nombre:  ");
+                    nombre = Console.ReadLine();
+
+                    if (nombre.Length > 40)
+                    {
+                        Console.WriteLine("\n \t El nombre que has introducido es superior a 40 carácteres ");
+                        Console.Write("\n \t Vuelve a introducir Nombre:  ");
+                        nombre = Console.ReadLine();
+
+                    }
+
+
+                    a = new Aula(id, nombre);
+                    lis_aulas.Add(a);
+                }
+                Console.Write("\n \t ¿más aulas (S/N)?:  ");
+                anadir = Console.ReadLine().ToUpper();
+
+            } while (anadir == "S");
+        }
+
+        static void borrar_aulas()
+        {
+            string borraraula;
+            bool existe_aula = false;
+            int id;
+            do
+            {
+                Console.Clear();
+
+                Console.WriteLine("\n \t === Borrar Aulas === \n");
+
+                if (lis_aulas.Count == 0)
+                {
+                    Console.WriteLine("\n \t La lista de Aulas está vacía ");
+                    Console.WriteLine("\n \t Pulse intro para salir");
+                    Console.ReadLine();
+                    return;
+                }
+
+                Console.Write("\t Identificador (0 ver lista de aulas): ");
+
+                id = int.Parse(Console.ReadLine());
+
+                if (id == 0)
+                {
+                    a.verdatos();
+                    return;//volvemo menu
+                }
+               
+
+                for (int i = 0; i < lis_aulas.Count; i++)
+                {
+                    if (lis_aulas[i].Id == id)//comparamos los id de la lista con el introducido por el usuario 
+                    {
+                        string opcion;
+                        Console.WriteLine("\n \t Se procedera a borrar el aula:  {0}", lis_aulas[i].Nombre);
+                        Console.WriteLine("\n \t Esta aula tiene {0} ordenadores que serán tambien eliminados", lis_aulas[i].ordenador_lista.Count);
+
+                        Console.Write("\n \t ¿Desea borrar el aula  (S/N):   ");
+                        opcion = Console.ReadLine().ToUpper();
+
+                        existe_aula = true;
+
+                        if (opcion == "S")
+                        {
+                            lis_aulas.Remove(lis_aulas[i]);//borrar todo de la lista aula
+                        }
+                        if (opcion == "N")
+                        {
+                            Console.WriteLine("\n \t ..... No se borro el aula");
+                        }
+                       
+                    }
+                }
+                if(existe_aula == false)
+                {
+                    Console.Write("\n \t **No existe dicho identificador** ");
+                    Console.ReadLine();
+                }
+
+                Console.Write("\n \t ¿borrar más? (S/N):  ");
+                borraraula = Console.ReadLine().ToUpper();
+
+
+            } while (borraraula == "S");
+
+        }
+
+        static void modificar_aula()
+        {
+            string mod;
+
+            do
+            {
+                Console.Clear();
+                int id;
+                string nuevo_nombre;
+
+                Console.WriteLine("\n \t === Modificar Aulas === ");
+
+                if (lis_aulas.Count == 0)
+                {
+                    Console.WriteLine("\n \t La lista de Aulas está vacía ");
+                    Console.WriteLine("\n \t Pulse intro para salir");
+                    Console.ReadLine();
+                    return;
+                }
+
+                Console.Write("\t Identificador (0 ver lista de aulas): ");
+
+                id = int.Parse(Console.ReadLine());
+
+                if (id == 0)
+                {
+                    a.verdatos();
+                    return;//volvemo menu
+                }
+                for (int i = 0; i < lis_aulas.Count; i++)
+                {
+                    if (lis_aulas[i].Id == id)
+                    {
+                        Console.Write("\n \t Nuevo nombre:  ");
+                        nuevo_nombre = Console.ReadLine();
+                        lis_aulas[i].Nombre = nuevo_nombre;
+
+                    }
+                }
+                
+                Console.WriteLine("\n \t modificar más aulas (S/N):  ");
+                mod = Console.ReadLine().ToUpper();
+            } while (mod == "S");
+        }
+
         static void menu_ordenadores()
         {
             Console.Title = "\t \t *** ORDENADORES ***";

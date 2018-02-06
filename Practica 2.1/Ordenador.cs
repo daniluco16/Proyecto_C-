@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Practica_2._1
+namespace Practica_2_Evaluación
 {
     class Ordenador
     {
         string id,ram, disco_duro, t_video, procesador, aplicaciones;
         Aula aula;
 
-        public Ordenador(string UnId, string UnaRam, string UnDiscoDuro, string UnaT_video, string UnProcesador, string UnaAplicacion)
+        public Ordenador(string UnId,Aula aula, string UnaRam, string UnDiscoDuro, string UnaT_video, string UnProcesador, string UnaAplicacion)
         {
             this.id = UnId;
             this.ram = UnaRam;
@@ -19,6 +19,7 @@ namespace Practica_2._1
             this.t_video = UnaT_video;
             this.procesador = UnProcesador;
             this.aplicaciones = UnaAplicacion;
+            this.aula = aula;
         }
 
         public string ID
