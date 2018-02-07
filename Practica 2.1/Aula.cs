@@ -8,7 +8,7 @@ namespace Practica_2_Evaluación
 {
     class Aula
     {
-        List<Ordenador> list_ordenador;
+        List<Ordenador> list_ordenador = new List<Ordenador>();
 
         int id;
         string nombre;
@@ -16,7 +16,7 @@ namespace Practica_2_Evaluación
 
         public Aula() // Constructor por defecto 
         {
-
+            
         }
 
         public Aula(int unId, string unNombre)//Leer datos
@@ -80,12 +80,12 @@ namespace Practica_2_Evaluación
 
                 foreach (Aula clase in sorted)
                 {
-                    Console.WriteLine("\n \t {0} \t \t {1} \t \t \t {2} \t \t \t{3}", clase.id, clase.nombre, clase.list_ordenador.Count, clase.fecha);
+                    Console.WriteLine("\n \t {0} \t \t {1} \t \t \t {2} \t \t \t{3}", clase.id, clase.nombre, clase.ordenador_lista.Count, clase.fecha);
                 }
 
                 Console.WriteLine("\n ========================================================================================================\n");
                 Console.WriteLine("\t Nº de Aulas: {0} ", Program.lis_aulas.Count);
-                Console.WriteLine("\n \t Nº de Ordenadores:  ");
+                Console.WriteLine("\n \t Nº de Ordenadores: {0}", Program.lis_ordenadores.Count);
 
                 Console.WriteLine("\n \t Pulse INTRO para volver");
                 Console.ReadLine();
