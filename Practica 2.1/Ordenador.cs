@@ -165,5 +165,43 @@ namespace Practica_2_Evaluación
                 Console.ReadLine();
             }
         }
+
+        public void lista_ordenador()
+        {
+           
+                Console.Clear();
+
+
+                if (Program.lis_ordenadores.Count == 0)
+                {
+                    Console.WriteLine("\n \t La lista de ordenadores esta vacia (Pulse alguna letra para volver) ");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    List<Ordenador> sorted = Program.lis_ordenadores.OrderBy(Ordenador => Ordenador.ID).ToList();
+
+                    Console.Write("\n \t === Características por ordenador === \n");
+
+                    Console.Write("\n \t ID.\t RAM \t\t Disco.D\t\t T.Gráf\t\t Proces\t\t Alta/Mod.");
+
+                    Console.WriteLine("\n ===================================================================================================");
+
+                    foreach (Ordenador pc in sorted)
+                    {
+                    string nuevafecha = pc.fecha.ToString();
+
+                        Console.WriteLine("\n \t {0} \t {1}\t {2}\t {3}\t {4}\t {5}", pc.ID, pc.RAM, pc.Disco_duro, pc.T_video, pc.Procesador, nuevafecha.Substring(0,10));
+                    }
+                    Console.WriteLine("\n ========================================================================================================\n");
+
+                    Console.WriteLine("\t Nº de Ordenadores: {0} ", Program.lis_ordenadores.Count);
+
+                    Console.WriteLine("\n \t Pulse INTRO para volver");
+                    Console.ReadLine();
+                
+
+            }
+        }
     }
 }

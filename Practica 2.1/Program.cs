@@ -23,6 +23,10 @@ namespace Practica_2_Evaluación
 
         static Ordenador b = new Ordenador();//Creacion objeto ordenador
 
+        static int available_aula = 5;
+
+        static int available_pc = 2;
+
         static void Main(string[] args)
         {
             string main_menu;
@@ -121,7 +125,6 @@ namespace Practica_2_Evaluación
         {
             string anadir;
             bool error = false;
-            int available_aula = 5;
             do
             {
                 do
@@ -139,7 +142,9 @@ namespace Practica_2_Evaluación
                         {
                             Console.WriteLine("\n \t ***Has superado el limite de aulas registradas ,por favor borre algún aula***");
 
+                            Console.Write("\n \t PULSE INTRO PARA CONTINUAR");
                             Console.ReadLine();
+                            return;
                         }
                         else
                         {
@@ -177,6 +182,17 @@ namespace Practica_2_Evaluación
                             Console.Write("\n \t Nombre:  ");
                             nombre = Console.ReadLine();
 
+                            for (int i = 0; i < lis_aulas.Count; i++)
+                            {
+                                while (lis_aulas[i].Nombre == nombre)
+                                {
+                                    Console.Write("\n \t No puedes repetir nombres de aulas \n");
+
+                                    Console.Write("\n \t Nombre:  ");
+                                    nombre = Console.ReadLine();
+                                }
+                            }
+                            
                             while (nombre == "")
                             {
                                 Console.Write("\n \t No puedes dejar este campo vacio \n");
@@ -185,7 +201,7 @@ namespace Practica_2_Evaluación
                                 nombre = Console.ReadLine();
                             }
 
-                            if (nombre.Length > 40)
+                            while (nombre.Length > 40)
                             {
                                 Console.WriteLine("\n \t El nombre que has introducido es superior a 40 carácteres ");
                                 Console.Write("\n \t Vuelve a introducir Nombre:  ");
@@ -203,10 +219,19 @@ namespace Practica_2_Evaluación
                         error = true;
                         Console.WriteLine("\n \t ** Carácter no permitido ");
                     }
+
                 } while (error);
                 
                 Console.Write("\n \t ¿más aulas (S/N)?:  ");
                 anadir = Console.ReadLine().ToUpper();
+
+                while (anadir != "S" && anadir != "N" && anadir != "s" && anadir != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿más aulas (S/N)?:  ");
+                    anadir = Console.ReadLine().ToUpper();
+                }
 
             } while (anadir == "S");
         }
@@ -259,6 +284,14 @@ namespace Practica_2_Evaluación
                                 Console.Write("\n \t ¿Desea borrar el aula  (S/N):   ");
                                 opcion = Console.ReadLine().ToUpper();
 
+                                while (opcion != "S" && opcion != "N" && opcion != "s" && opcion != "n")
+                                {
+                                    Console.Write("\n \t ERROR\n");
+
+                                    Console.Write("\n \t ¿Desea borrar el aula (S/N)?:  ");
+                                    opcion = Console.ReadLine().ToUpper();
+                                }
+
                                 existe_aula = true;
 
                                 if (opcion == "S")
@@ -289,6 +322,14 @@ namespace Practica_2_Evaluación
                 
                 Console.Write("\n \t ¿borrar más? (S/N):  ");
                 borraraula = Console.ReadLine().ToUpper();
+
+                while (borraraula != "S" && borraraula != "N" && borraraula != "s" && borraraula != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿borrar más aulas (S/N)?:  ");
+                    borraraula = Console.ReadLine().ToUpper();
+                }
 
             } while (borraraula == "S");
 
@@ -324,23 +365,23 @@ namespace Practica_2_Evaluación
 
                         id = int.Parse(Console.ReadLine());
 
-                        if (id == 0)
-                        {
-                            a.verdatos();
-                            return;//volvemos al menu
-                        }
+                                        
+                            while (lis_aulas.Count != id)
+                            {
 
-                        while (id != lis_aulas.Count)
-                        {
-                            Console.Write("\n \t **No existe dicho identificador** \n ");
+                            if (id == 0)
+                            {
+                                a.verdatos();
+                                return;//volvemos al menu
+                            }
 
-                            Console.Write("\n \t Identificador (0 ver lista de aulas): ");
+                                Console.Write("\n \t **No existe dicho identificador** \n ");
 
-                            id = int.Parse(Console.ReadLine());
-                        }
+                                Console.Write("\n \t Identificador (0 ver lista de aulas): ");
 
-                       
-
+                                id = int.Parse(Console.ReadLine());
+                            }                        
+                        
                         for (int i = 0; i < lis_aulas.Count; i++)
                         {
                             if (lis_aulas[i].Id == id)
@@ -356,10 +397,20 @@ namespace Practica_2_Evaluación
                         error = true;
                         Console.WriteLine("\n \t ** Carácter no permitido ");
                     }
+
                 } while (error);
                           
                 Console.Write("\n \t modificar más aulas (S/N):  ");
                 mod = Console.ReadLine().ToUpper();
+
+                while (mod != "S" && mod != "N" && mod != "s" && mod != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿modificar más aulas (S/N)?:  ");
+                    mod = Console.ReadLine().ToUpper();
+                }
+
             } while (mod == "S");
         }
 
@@ -418,7 +469,6 @@ namespace Practica_2_Evaluación
         static void anadir_ordenadores()
         {
             string anadir;
-            int available_pc = 15;
             string id_pc = "";
             int id_aula = 0;
             string ram= "", disco_duro= "", procesador= "", hd="", app="";
@@ -438,8 +488,11 @@ namespace Practica_2_Evaluación
                         {
                             Console.WriteLine("\n \t ***Has superado el limite de ordenadores registradas, por favor borre algún ordenador***");
 
+                            Console.Write("\n \t PULSE INTRO PARA SALIR");
                             Console.ReadLine();
+                            return;
                         }
+                    
                         else
                         {
 
@@ -562,6 +615,14 @@ namespace Practica_2_Evaluación
                 Console.Write("\n \t ¿más ordenadores? (S/N):  ");
                 anadir = Console.ReadLine().ToUpper();
 
+                while (anadir != "S" && anadir != "N" && anadir != "s" && anadir != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿añadir más ordenadores (S/N)?:  ");
+                    anadir = Console.ReadLine().ToUpper();
+                }
+
             } while (anadir == "S");
         }
 
@@ -591,6 +652,24 @@ namespace Practica_2_Evaluación
                     return;//volvemo menu
                 }
 
+                for (int a = 0; a < lis_ordenadores.Count; a++)
+                {
+                    while (lis_ordenadores[a].ID != id_ordenador)
+                    {
+                        Console.Write("\n \t Introduce un ID de ordenador existente");
+
+                        Console.Write("\n \t Identificador de ordenador (0 ver lista de ordenadores):  ");
+                        id_ordenador = Console.ReadLine();
+
+                        if (id_ordenador == "0")
+                        {
+                            b.verdatos_pc();
+                            return;//volvemo menu
+                        }
+                    }
+                }
+
+
                 for (int i = 0; i < lis_ordenadores.Count; i++)
                 {
                     if (lis_ordenadores[i].ID == id_ordenador)
@@ -618,7 +697,15 @@ namespace Practica_2_Evaluación
 
                 Console.Write("\n \t ¿borrar más? (S/N):  ");
                 borrar = Console.ReadLine().ToUpper();
-                    
+
+                while (borrar != "S" && borrar != "N" && borrar != "s" && borrar != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿borrar más aulas (S/N)?:  ");
+                    borrar = Console.ReadLine().ToUpper();
+                }
+
             } while (borrar == "S");
         }
         static void cambiar_ubicacion_ordenador()
@@ -691,6 +778,14 @@ namespace Practica_2_Evaluación
                 Console.Write("\n \t ¿mover más? (S/N):  ");
                 cambio = Console.ReadLine().ToUpper();
 
+                while (cambio != "S" && cambio != "N" && cambio != "s" && cambio != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿cambiar más ordenadores (S/N)?:  ");
+                    cambio = Console.ReadLine().ToUpper();
+                }
+
             } while (cambio == "S");
         }
         static void modificar_ordenador()
@@ -702,7 +797,16 @@ namespace Practica_2_Evaluación
             do
             {
                 Console.Clear();
-                    Console.Write("\n \t === Modificar ordenador ===");
+
+                if (lis_ordenadores.Count == 0)
+                {
+                    Console.Write("\n \t La lista de Ordenadores está vacía \n");
+                    Console.Write("\n \t Pulse intro para salir");
+                    Console.ReadLine();
+                    return;
+                }
+
+                Console.Write("\n \t === Modificar ordenador ===\n");
 
                     Console.Write("\n \t Identificador de ordenador (0 ver lista ordenador):  ");
                     id_pc = Console.ReadLine();
@@ -713,18 +817,19 @@ namespace Practica_2_Evaluación
                     return;
                 }
                
-                if (lis_ordenadores.Count == 0)
-                {
-                    Console.Write("\n \t La lista de Ordenadores está vacía ");
-                    Console.Write("\n \t Pulse intro para salir");
-                    Console.ReadLine();
-                    return;
-                }
-                
-
-
                 for (int i = 0; i < lis_ordenadores.Count; i++)
                     {
+                        if (lis_ordenadores[i].ID != id_pc)
+                        {
+                        Console.Write("\n \t ID no disponible mire bien la lista de ordenadores");
+                        Console.ReadLine();
+
+                        Console.Clear();
+
+                        b.verdatos_pc();
+                        return;
+
+                        }
                         if (lis_ordenadores[i].ID == id_pc)
                         {
                             Console.Write("\n \t ¿Desea modificar su identificador (S/N):  ");
@@ -732,7 +837,7 @@ namespace Practica_2_Evaluación
 
                         if (mod == "S")
                         {
-                            Console.Write("\n \t Escribe el nuevo identificador: \n ");
+                            Console.Write("\n \t Escribe el nuevo identificador:  ");
                             nuevo_id = Console.ReadLine();
 
                             lis_ordenadores[i].ID = nuevo_id;
@@ -767,6 +872,14 @@ namespace Practica_2_Evaluación
 
                 Console.Write("\n \t ¿más ordenadores? (S/N):  ");
                 mod2 = Console.ReadLine().ToUpper();
+
+                while (mod2 != "S" && mod2 != "N" && mod2 != "s" && mod2 != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t ¿modificar más ordenadores (S/N)?:  ");
+                    mod2 = Console.ReadLine().ToUpper();
+                }
 
             } while (mod2 == "S");
 
@@ -805,11 +918,11 @@ namespace Practica_2_Evaluación
                         break;
 
                     case "3":
-                        //Borrar aulas
+                        aplicaciones_instaladas(); //Aplicaciones instaladas por ordenador
                         break;
 
                     case "4":
-                        //Modificar aulas
+                        b.lista_ordenador();//Características del ordenador
                         break;
                 }
             } while (menu_lista != "0");
@@ -848,26 +961,129 @@ namespace Practica_2_Evaluación
 
         static void ordenadores_ordenados()
         {
-            List<Ordenador> sorted = lis_ordenadores.OrderBy(Ordenador => Ordenador.Aula.Nombre).ThenBy(Ordenador => Ordenador.ID).ToList();
+            Console.Clear();
 
-            Console.Write("\n \t === Listado de ordenadores ordenados por aulas e identf \n");
-
-            Console.WriteLine("\n \t ID.\t\t Aula \t \t  Aplicaciones");
-            Console.WriteLine("\n \t ======= \t ============ \t \t ===============");
-
-            foreach (Ordenador var in sorted)
+            if (lis_aulas.Count == 0)
             {
-                Console.WriteLine("\n \t {0} \t \t {1} \t \t \t {2}", var.ID, var.Aula.Nombre, var.Aplicaciones);
+                Console.WriteLine("\n \t La lista de aulas esta vacia (Pulse alguna letra para volver) ");
+                Console.ReadLine();
+            }
+            else if (lis_ordenadores.Count == 0)
+            {
+                Console.WriteLine("\n \t La lista de ordenadores esta vacia (Pulse alguna letra para volver) ");
+                Console.ReadLine();
+            }           
+            else
+            {
+                List<Ordenador> sorted = lis_ordenadores.OrderBy(Ordenador => Ordenador.Aula.Nombre).ThenBy(Ordenador => Ordenador.ID).ToList();
+               
+                Console.Write("\n \t === Listado de ordenadores ordenados por aulas e identf \n");
+
+                Console.WriteLine("\n \t ID.\t\t Aula \t \t \t Aplicaciones");
+                Console.WriteLine("\n \t ======= \t ============ \t \t ===============");
+
+                foreach (Ordenador var in sorted)
+                {
+                    if (var.Aplicaciones.Length < 30)
+                    {
+                        Console.WriteLine("\n \t {0} \t \t {1} \t \t \t {2}", var.ID, var.Aula.Nombre, var.Aplicaciones);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n \t {0} \t \t {1} \t \t \t {2}", var.ID, var.Aula.Nombre, var.Aplicaciones.Substring(0, 30));
+                    }
+                               
+                }
+
+                Console.WriteLine("\n ========================================================================================================\n");
+
+                Console.WriteLine("\t Nº de Ordenadores: {0} ", lis_ordenadores.Count);
+
+                Console.WriteLine("\n \t Pulse INTRO para volver");
+                Console.ReadLine();
+            }
+            
+        }
+        static void aplicaciones_instaladas()
+        {
+            Console.Clear();
+
+            if (lis_ordenadores.Count == 0)
+            {
+                Console.WriteLine("\n \t La lista de ordenadores esta vacia (Pulse alguna letra para volver) ");
+                Console.ReadLine();
+            }
+            else
+            {
+                List<Ordenador> sorted = lis_ordenadores.OrderBy(Ordenador => Ordenador.ID).ToList();
+
+                Console.Write("\n \t === Aplicaciones instaladas por ordenador === \n");
+
+                Console.WriteLine("\n \t ID.\t\t\t Aplicaciones");
+                Console.WriteLine("\n \t ======= \t =============================");
+
+                foreach (Ordenador pc in sorted)
+                {
+                    Console.Write("\n \t {0}", pc.ID + "\t\t");
+
+                    if (pc.Aplicaciones.Length > 50)
+                    {
+                        for (int i = 0; i < 50; i++)
+                        {
+                            Console.Write(pc.Aplicaciones[i]);
+                        }
+                        Console.Write("\n \t\t\t");
+                        for (int i = 49; i < pc.Aplicaciones.Length; i++)
+                        {
+                            Console.Write(pc.Aplicaciones[i]);
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(pc.Aplicaciones);
+                    }                                                          
+                }
+                Console.WriteLine("\n ========================================================================================================\n");
+
+                Console.WriteLine("\t Nº de Ordenadores: {0} ", lis_ordenadores.Count);
+
+                Console.WriteLine("\n \t Pulse INTRO para volver");
+                Console.ReadLine();
+            }         
+        }
+       /* static void caracteris_pc()
+        {
+            Console.Clear();
+
+
+            if (lis_ordenadores.Count == 0)
+            {
+                Console.WriteLine("\n \t La lista de ordenadores esta vacia (Pulse alguna letra para volver) ");
+                Console.ReadLine();
+            }
+            else
+            {
+                List<Ordenador> sorted = lis_ordenadores.OrderBy(Ordenador => Ordenador.ID).ToList();
+
+                Console.Write("\n \t === Características por ordenador === \n");
+
+                Console.Write("\n \t ID.\t RAM \t\t Disco.D \t\t T.Gráf\t\t Proces\t\t Alta/Mod.");
+
+                Console.WriteLine("\n \t ======\t========\t========\t==========\t======\t=========");
+
+                foreach (Ordenador pc in sorted)
+                {
+                    Console.WriteLine("\n \t {0} \t {1}\t {2}\t {3}\t {4}\t", pc.ID, pc.RAM, pc.Disco_duro, pc.T_video, pc.Procesador);
+                }
+                Console.WriteLine("\n ========================================================================================================\n");
+
+                Console.WriteLine("\t Nº de Ordenadores: {0} ", lis_ordenadores.Count);
+
+                Console.WriteLine("\n \t Pulse INTRO para volver");
+                Console.ReadLine();
             }
 
-            Console.WriteLine("\n ========================================================================================================\n");
-
-            Console.WriteLine("\t Nº de Ordenadores: {0} ", lis_ordenadores.Count);
-
-            Console.WriteLine("\n \t Pulse INTRO para volver");
-            Console.ReadLine();
-        }
-
+        }*/
         static void menu_configuracion()
         {
             string menu_config;
@@ -893,11 +1109,11 @@ namespace Practica_2_Evaluación
                 switch (menu_config)
                 {
                     case "1":
-                        //Máximo aulas
+                        maximo_aulas();//Máximo aulas
                         break;
 
                     case "2":
-                        //Máximo ordenadores
+                        maximo_ordenador();//Máximo ordenadores
                         break;
 
                     case "9":
@@ -907,6 +1123,170 @@ namespace Practica_2_Evaluación
             } while (menu_config != "0");
         }
 
+        static void maximo_aulas()
+        {
+           
+            string maximo;
+
+            int maximoaula;
+
+            do
+            {
+                Console.Clear();
+                Console.Write("\n \t === Cambiar máximo de aulas ===\n");
+
+                Console.Write("\n \t Introduce nuevo máximo de aulas: ");
+                 maximoaula = int.Parse(Console.ReadLine());
+
+                while(maximoaula <= available_aula)
+                {
+                    Console.Write("\n \t No se puede cambiar a ese número ya sea porque es menor o igual a 5(predeterminado) ");
+
+                    Console.Write("\n \t Introduce nuevo máximo de aulas: ");
+                    maximoaula = int.Parse(Console.ReadLine());
+                }
+
+                available_aula = maximoaula;
+               
+                Console.Write("\n \t Desea volver a cambiar máximo (S/N):  ");
+                maximo = Console.ReadLine().ToUpper();
+
+                while (maximo != "S" && maximo != "N" && maximo != "s" && maximo != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t Desea volver a cambiar máximo (S/N):  ");
+                    maximo = Console.ReadLine().ToUpper();
+                }
+
+            } while (maximo == "S");
+        }
+
+        static void maximo_ordenador()
+        {
+            string maximo;
+            int maximo_orde;
+            do
+            {
+                Console.Clear();
+
+                Console.Write("\n \t === Cambiar máximo de ordenadores ===\n");
+
+                Console.Write("\n \t Introduce nuevo máximo de ordenadores: ");
+                maximo_orde = int.Parse(Console.ReadLine());
+
+                while (maximo_orde <= available_pc)
+                {
+                    Console.Write("\n \t No se puede cambiar a ese número ya sea porque es menor o igual a 15(predeterminado) ");
+
+                    Console.Write("\n \t Introduce nuevo máximo de aulas: ");
+                    maximo_orde = int.Parse(Console.ReadLine());
+                }
+                available_pc = maximo_orde;
+
+                Console.Write("\n \t Desea volver a cambiar máximo (S/N):  ");
+                maximo = Console.ReadLine().ToUpper();
+
+                while (maximo != "S" && maximo != "N" && maximo != "s" && maximo != "n")
+                {
+                    Console.Write("\n \t ERROR\n");
+
+                    Console.Write("\n \t Desea volver a cambiar máximo (S/N):  ");
+                    maximo = Console.ReadLine().ToUpper();
+                }
+
+            } while (maximo == "S");
+
+        }
+        /*static void prueba_automatica()
+        {
+            Console.Clear();
+            DateTime fecha_a = DateTime.Now;
+
+            for (int i = 1; i <= 5; i++)
+            {
+                c = new Aula(i,"Aula" + i);
+
+                lis_aulas.Add(c);
+            }
+            Aula aula = aul(1);
+        }
+        */
+        /*
+static void InicializacionPruebas()
+{
+    Console.Clear();
+
+    string fecha_cm = DateTime.Now.ToString();
+
+    for (int i = 1; i <= 5; i++)
+    {
+        p = new Aula();
+        p.LeerDatos(i, "Aula " + i, fecha_cm);
+        lista_aulas.Add(p);
+    }
+
+    Aula aula = obteneraula(1);
+    o = new Ordenador();
+    o.LeerDatos("PC01", aula, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
+    lista_ordenadores.Add(o);
+    List<Ordenador> lista = aula.getLista; // devuelve la lista de ordenadores del aula que le asignamos
+    lista.Add(o);
+
+    Aula aula2 = obteneraula(2);
+    o = new Ordenador();
+    o.LeerDatos("PC02", aula2, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
+    lista_ordenadores.Add(o);
+    lista = aula2.getLista;
+    lista.Add(o);
+
+
+    Aula aula3 = obteneraula(4);
+    o = new Ordenador();
+    o.LeerDatos("PC03", aula3, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
+    lista_ordenadores.Add(o);
+    lista = aula3.getLista;
+    lista.Add(o);
+
+    Aula aula4 = obteneraula(5);
+    o = new Ordenador();
+    o.LeerDatos("PC04", aula4, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
+    lista_ordenadores.Add(o);
+    lista = aula4.getLista;
+    lista.Add(o);
+
+
+    for (int b = 5; b <= 8; b++)
+    {
+        Aula aula5 = obteneraula(3);
+        o = new Ordenador();
+        o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
+
+        if (b == 6)
+        {
+            o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
+        }
+
+        if (b == 7)
+        {
+            o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
+        }
+
+        if (b == 8)
+        {
+            o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
+        }
+
+        lista_ordenadores.Add(o);
+        lista = aula5.getLista;
+        lista.Add(o);
+    }
+
+    Console.WriteLine("\n\n\t\t MODO INICIALIZACIÓN PARA PRUEBAS ACTIVADO \n");
+    Console.WriteLine("\t\t PULSE INTRO PARA VOLVER ATRÁS \n");
+    Console.ReadLine();
+}*/
+        ///////MÉTODOS////////
         static bool existe_aula(int id_aula)
         {
             bool existe = false;
