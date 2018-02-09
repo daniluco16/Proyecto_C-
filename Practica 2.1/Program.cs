@@ -19,13 +19,17 @@ namespace Practica_2_Evaluación
 
         static public List<Ordenador> lis_ordenadores = new List<Ordenador>();
 
+        static public List<Ordenador> lista_temp = new List<Ordenador>(); // Lista temporal para borrar todos los pc de un aula, sino borraria solo un pc 
+
         static Aula a = new Aula();//Creacion objeto aula
 
         static Ordenador b = new Ordenador();//Creacion objeto ordenador
 
+
+
         static int available_aula = 5;
 
-        static int available_pc = 2;
+        static int available_pc = 15;
 
         static void Main(string[] args)
         {
@@ -296,7 +300,23 @@ namespace Practica_2_Evaluación
 
                                 if (opcion == "S")
                                 {
-                                    lis_aulas.Remove(lis_aulas[i]);//borrar todo de la lista aula
+                                    for (int a = 0; a < lis_ordenadores.Count; a++)
+                                    {
+                                        if (lis_ordenadores[a].Aula != lis_aulas[i])
+                                        {
+                                            lista_temp.Add(lis_ordenadores[a]);                                            
+                                        }
+                                    }
+                                    lis_ordenadores.Clear();
+
+                                    for (int c = 0; c < lista_temp.Count; c++)
+                                    {
+                                        lis_ordenadores.Add(lista_temp[c]);
+                                    }
+
+                                    lista_temp.Clear();
+
+                                    lis_aulas.Remove(lis_aulas[i]);//borrar todos los datos de un aula de la lista
 
                                 }
                                 if (opcion == "N")
@@ -311,6 +331,9 @@ namespace Practica_2_Evaluación
                             Console.Write("\n \t **No existe dicho identificador** ");
                             Console.ReadLine();
                         }
+
+                       
+
                     }
                     catch
                     {
@@ -715,66 +738,98 @@ namespace Practica_2_Evaluación
             int id_aula;
             Aula nueva_aula = new Aula();
             Ordenador ordenador = new Ordenador();
+            bool error = false;
             do
             {
-                Console.Clear();
-
-                Console.WriteLine("\n \t === Cambiar ubicación del ordenador ===");
-
-                if (lis_ordenadores.Count == 0)
+                do
                 {
-                    Console.WriteLine("\n \t La lista de Ordenadores está vacía ");
-                    Console.WriteLine("\n \t Pulse intro para salir");
-                    Console.ReadLine();
-                    return;
-                }
-
-                Console.Write("\n \t Identificador del ordenador (0 ver lista de ordenador):  ");
-                id_ordenador = Console.ReadLine();
-
-                if (id_ordenador == "0")
-                {
-                    b.verdatos_pc();
-                    return;
-                }
-
-                for (int i = 0;i < lis_ordenadores.Count; i++)
-                {
-                    if (lis_ordenadores[i].ID == id_ordenador)
+                    try
                     {
-                        Console.WriteLine("\n \t Seleccionado <{0}> situado en <{1}>", lis_ordenadores[i].ID, lis_ordenadores[i].Aula.Nombre);//cambiar <>
+                        error = false;
+                        Console.Clear();
 
-                        ordenador = lis_ordenadores[i]; // Guardamos un ordenador
-                        
+                        Console.WriteLine("\n \t === Cambiar ubicación del ordenador ===");
 
-                        Console.Write("\n \t Situe una nueva ubicación (0 lista de aulas): ");
-                        id_aula = int.Parse(Console.ReadLine());
-
-                        for (int a =0; a < lis_aulas.Count; a++)
+                        if (lis_ordenadores.Count == 0)
                         {
-                            if (lis_aulas[i].Id == id_aula)
-                            {
-                                nueva_aula = lis_aulas[i];// Guardamos un aula 
-                            }
-                        }
-
-                        if (lis_aulas[i].Id == 0)
-                        {
-                            a.verdatos();
+                            Console.WriteLine("\n \t La lista de Ordenadores está vacía ");
+                            Console.WriteLine("\n \t Pulse intro para salir");
+                            Console.ReadLine();
                             return;
                         }
 
-                        //El ordenador 5 esta en aula 5 "Aula 5 tiene una lista de ordenadores donde esta el oredandor 5"
+                        Console.Write("\n \t Identificador del ordenador (0 ver lista de ordenador):  ");
+                        id_ordenador = Console.ReadLine();
 
-                        ordenador.Aula.ordenador_lista.Remove(ordenador);//Borramos de la lista de ordenadores del aula el ordenador.
+                        while (!existe_ordenador(id_ordenador) && id_ordenador != "0")
+                        {
+                            Console.Write("\n \t Esta ID no existe");
 
-                        ordenador.Aula = nueva_aula;// Cambia el aula actual por el nuevo aula.
+                            Console.Write("\n \t Identificador ordenador (0 ver lista de ordenadores):  ");
+                            id_ordenador = Console.ReadLine();
+                        }
 
-                        nueva_aula.ordenador_lista.Add(ordenador);// Añadimos a la lista de ordenadores del nuevo aula el ordenador.
+                        if (id_ordenador == "0")
+                        {
+                            b.verdatos_pc();
+                            return;
+                        }
 
-                        Console.WriteLine("\n \t ...... El ordenador |{0}| se movio correctamente al <{1}>", lis_ordenadores[i].ID, nueva_aula.Nombre);//cambiar || y <>
+                        for (int i = 0; i < lis_ordenadores.Count; i++)
+                        {
+                            if (lis_ordenadores[i].ID == id_ordenador)
+                            {
+                                Console.WriteLine("\n \t Seleccionado <{0}> situado en <{1}>", lis_ordenadores[i].ID, lis_ordenadores[i].Aula.Nombre);//cambiar <>
+
+                                ordenador = lis_ordenadores[i]; // Guardamos un ordenador
+
+
+                                Console.Write("\n \t Situe un nuevo ID de aula para ubicación (0 lista de aulas): ");
+                                id_aula = int.Parse(Console.ReadLine());
+
+
+                                for (int a = 0; a < lis_aulas.Count; a++)
+                                {
+                                    if (lis_aulas[a].Id != id_aula && id_aula != 0)
+                                    {
+                                        Console.Write("\n \t El ID introducido no existe");
+
+                                        Console.Write("\n \t Situe un nuevo ID de aula para ubicación (0 lista de aulas): ");
+                                        id_aula = int.Parse(Console.ReadLine());
+                                    }
+
+                                    if (lis_aulas[a].Id == id_aula)
+                                    {
+                                        nueva_aula = lis_aulas[a];// Guardamos un aula 
+                                    }
+                                }
+
+                                if (id_aula == 0)
+                                {
+                                    a.verdatos();
+                                    return;
+                                }
+
+                                //El ordenador 5 esta en aula 5 "Aula 5 tiene una lista de ordenadores donde esta el oredandor 5"
+
+                                ordenador.Aula.ordenador_lista.Remove(ordenador);//Borramos de la lista de ordenadores del aula el ordenador.
+
+                                ordenador.Aula = nueva_aula;// Cambia el aula actual por el nuevo aula.
+
+                                nueva_aula.ordenador_lista.Add(ordenador);// Añadimos a la lista de ordenadores del nuevo aula el ordenador.
+
+                                Console.WriteLine("\n \t ...... El ordenador |{0}| se movio correctamente al <{1}>", lis_ordenadores[i].ID, nueva_aula.Nombre);
+                            }
+                        }
                     }
-                }
+                    catch
+                    {
+                        error = true;
+                        Console.Write("\n \t *** Error carácter no permitido *** ");
+                    }
+
+                } while (error);
+                
                 Console.Write("\n \t ¿mover más? (S/N):  ");
                 cambio = Console.ReadLine().ToUpper();
 
@@ -1117,7 +1172,7 @@ namespace Practica_2_Evaluación
                         break;
 
                     case "9":
-                        //Pruebas automáticas
+                        prueba_automatica();//Pruebas automáticas
                         break;
                 }
             } while (menu_config != "0");
@@ -1198,94 +1253,44 @@ namespace Practica_2_Evaluación
             } while (maximo == "S");
 
         }
-        /*static void prueba_automatica()
+        static void prueba_automatica()
         {
+            lis_aulas.Clear();
+            lis_ordenadores.Clear();
+
             Console.Clear();
-            DateTime fecha_a = DateTime.Now;
 
-            for (int i = 1; i <= 5; i++)
+            for ( int i = 1; i <= 5; i++)
             {
-                c = new Aula(i,"Aula" + i);
-
-                lis_aulas.Add(c);
+                a = new Aula(i, "Aula" + i);
+                lis_aulas.Add(a);
             }
-            Aula aula = aul(1);
+            for (int o = 1; o <= 2; o++)
+            {
+                b = new Ordenador("PC0" + o, lis_aulas[o - 1], "8,00 GB", "350,00 GB", "Intel i5", "AMD R7 370", "Win 7, Office 2010, Chrome");
+                lis_aulas[o - 1].ordenador_lista.Add(b);
+                lis_ordenadores.Add(b);
+
+            }
+            for (int i = 3; i <= 4; i++)
+            {
+                b = new Ordenador("PC0" + i, lis_aulas[i], "8,00 GB", "480,00 GB", "Intel i5", "GTX 1080", "Win 7, Office 2010, Chrome");
+                lis_aulas[i].ordenador_lista.Add(b);
+                lis_ordenadores.Add(b);
+            }
+            for (int i = 5; i <= 8; i++)
+            {
+                b = new Ordenador("PC0" + i, lis_aulas[2], "4,00 GB", "150,00 GB", "Intel Celeron", "GeForce GTX Titan X PASCAL", "Ubuntu 14, Gedit, LibreOffice 5");
+                lis_aulas[2].ordenador_lista.Add(b);
+                lis_ordenadores.Add(b);
+            }
+
+
+            Console.WriteLine("\n \t Modo de depuración automática listo");
+            Console.WriteLine("\n \t Pulse INTRO para volver ");
+            Console.ReadLine();
         }
-        */
-        /*
-static void InicializacionPruebas()
-{
-    Console.Clear();
-
-    string fecha_cm = DateTime.Now.ToString();
-
-    for (int i = 1; i <= 5; i++)
-    {
-        p = new Aula();
-        p.LeerDatos(i, "Aula " + i, fecha_cm);
-        lista_aulas.Add(p);
-    }
-
-    Aula aula = obteneraula(1);
-    o = new Ordenador();
-    o.LeerDatos("PC01", aula, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
-    lista_ordenadores.Add(o);
-    List<Ordenador> lista = aula.getLista; // devuelve la lista de ordenadores del aula que le asignamos
-    lista.Add(o);
-
-    Aula aula2 = obteneraula(2);
-    o = new Ordenador();
-    o.LeerDatos("PC02", aula2, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
-    lista_ordenadores.Add(o);
-    lista = aula2.getLista;
-    lista.Add(o);
-
-
-    Aula aula3 = obteneraula(4);
-    o = new Ordenador();
-    o.LeerDatos("PC03", aula3, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
-    lista_ordenadores.Add(o);
-    lista = aula3.getLista;
-    lista.Add(o);
-
-    Aula aula4 = obteneraula(5);
-    o = new Ordenador();
-    o.LeerDatos("PC04", aula4, "8,00 GB", "560,00 GB", "Intel i5", "Nvidia Force", "Win 7, Office 2010, Chrome", fecha_cm);
-    lista_ordenadores.Add(o);
-    lista = aula4.getLista;
-    lista.Add(o);
-
-
-    for (int b = 5; b <= 8; b++)
-    {
-        Aula aula5 = obteneraula(3);
-        o = new Ordenador();
-        o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
-
-        if (b == 6)
-        {
-            o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
-        }
-
-        if (b == 7)
-        {
-            o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
-        }
-
-        if (b == 8)
-        {
-            o.LeerDatos("PC0" + b, aula5, "4,00 GB", "860,00 GB", "Intel Celeron", "Nvidia Force", "Ubuntu 14, Gedit, LibreOffice 5", fecha_cm);
-        }
-
-        lista_ordenadores.Add(o);
-        lista = aula5.getLista;
-        lista.Add(o);
-    }
-
-    Console.WriteLine("\n\n\t\t MODO INICIALIZACIÓN PARA PRUEBAS ACTIVADO \n");
-    Console.WriteLine("\t\t PULSE INTRO PARA VOLVER ATRÁS \n");
-    Console.ReadLine();
-}*/
+       
         ///////MÉTODOS////////
         static bool existe_aula(int id_aula)
         {
