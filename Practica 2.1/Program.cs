@@ -588,7 +588,7 @@ namespace Practica_2_Evaluación
                                 id_aula = int.Parse(Console.ReadLine());
 
                             }
-
+                          
                             if (id_aula == 0)
                             {
                                 a.verdatos();
@@ -609,6 +609,17 @@ namespace Practica_2_Evaluación
                                 if (lis_aulas[i].Id == id_aula) // obtenemos el aula indicada
                                 {
                                     aula = lis_aulas[i];
+                                }
+
+                                if (lis_aulas[i].Id == id_aula)
+                                {
+                                    if (lis_aulas[i].ordenador_lista.Count == available_pc)
+                                    {
+                                        Console.Clear();
+                                        Console.Write("\n \t Ya tienes el número máximo de ordenadores");
+                                        Console.ReadLine();
+                                        return;
+                                    }
                                 }
                             }
                          
@@ -1500,17 +1511,7 @@ namespace Practica_2_Evaluación
                             maximo_orde = int.Parse(Console.ReadLine());
                         }
 
-                        for (int i = 0; i < lis_aulas.Count; i++)
-                        {
-                            if (lis_aulas[i].Id == maximo_orde)
-                            {
-                                if (lis_aulas[i].ordenador_lista.Count == maximo_orde)
-                                {
-                                    Console.Write("\n \t Ya tienes el número máximo de ordenadores");
-                                    Console.ReadLine();
-                                }
-                            }
-                        }
+                        
 
                         available_pc = maximo_orde;
                     }
